@@ -1,6 +1,7 @@
 import React from 'react';
 import './Login.scss'
 import { Link } from 'react-router-dom'
+import { login } from '../../api/userAction'
 
 
 class Login extends React.Component {
@@ -29,6 +30,17 @@ class Login extends React.Component {
     handleClick = e => {
         e.preventDefault()
         const { username, password } = this.state;
+        login(username, password).then(res => {
+            if (res) {
+                // this.props.handleLoginCheck();
+                this.setState({
+                    username: '',
+                    password: '',
+                    errors: false
+                })
+            }
+        })
+
 
     }
 

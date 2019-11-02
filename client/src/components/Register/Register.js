@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Login/Login.scss'
 import { Link } from 'react-router-dom'
+import { register } from '../../api/userAction'
 
 
 
@@ -31,6 +32,17 @@ class Register extends React.Component {
     handleClick = e => {
         e.preventDefault()
         const { username, password } = this.state;
+        register(username, password).then(res => {
+            if (res) {
+                // this.props.handleLoginCheck();
+                this.setState({
+                    username: '',
+                    password: '',
+                    errors: false
+                })
+            }
+        })
+
 
     }
 
