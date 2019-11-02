@@ -1,9 +1,11 @@
 import React from 'react';
-import './Login.scss'
+import '../Login/Login.scss'
 import { Link } from 'react-router-dom'
 
 
-class Login extends React.Component {
+
+
+class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,7 +44,7 @@ class Login extends React.Component {
         return (
 
             <div className="loginModal ">
-                <div className="loginT mt-5" >Login</div>
+                <div className="loginT mt-5" >Register</div>
                 <div className="errorNotification mt-2 mb-2">{errorText}</div>
 
                 <div className="activeR">
@@ -65,12 +67,13 @@ class Login extends React.Component {
                         onChange={this.onChange} />
                 </div>
 
-                <button onClick={this.handleClick} className={active ? 'loginButtonActive' : 'loginButton'}><div className="buttonText mb-5" >Login</div></button>
+                <button onClick={this.handleClick} className={active ? 'loginButtonActive' : 'loginButton'}><div className="buttonText mb-5" >Register</div></button>
                 <hr className="mt-2"></hr>
 
                 <div className="mt-4 d-flex">
-                    <div className="dontHaveAccount mr-2">Don't have an account? </div>
-                    <Link to="/register" className="register">Register</Link>
+                    <div className="dontHaveAccount mr-2">You have an account? </div>
+                    <Link to="/" className="register">Login</Link>
+
                 </div>
 
 
@@ -80,5 +83,5 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Register;
 
