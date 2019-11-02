@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
-import Game from './components/Home/Game';
+import Game from './containers/Game'
 
 import {
   BrowserRouter as Router,
@@ -11,12 +11,17 @@ import {
 
 
 function App() {
+  //const isLogin = localStorage.getItem("usertoken") && true;
+  const isLogin = true;
+
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/game" component={Game} />
+        <Route exact path="/game"  >
+          {!isLogin ? <Redirect to="/" /> : <Game />}
+        </Route>
 
       </Switch>
 
