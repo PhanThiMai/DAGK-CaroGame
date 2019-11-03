@@ -1,0 +1,38 @@
+.profile-container {
+  height: 700px;
+  width: 900px;
+
+  .change-profile-title {
+    margin-left: 10%;
+    height: 100px;
+    width: 260px;
+  }
+
+  .activeR {
+    .passwordLabel {
+      width: 124px;
+    }
+  }
+
+  .loginButton {
+    height: 40px;
+    width: 180px;
+
+    .buttonText {
+      margin-left: 32%;
+      margin-top: 4%;
+      font-size: 14px;
+    }
+  }
+
+  .loginButtonActive {
+    height: 40px;
+    width: 180px;
+
+    .buttonText {
+      margin-left: 32%;
+      margin-top: 4%;
+      font-size: 14px;
+    }
+  }
+}

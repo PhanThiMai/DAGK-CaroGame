@@ -3,6 +3,7 @@ import './App.css';
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 import Game from './containers/Game'
+import Profile from './components/Profile/Profile'
 
 import {
   BrowserRouter as Router,
@@ -12,13 +13,7 @@ import {
 
 function App(props) {
   //const isLogin = localStorage.getItem("usertoken") && true;
-
-  //const isLogin = game && game.isLogin;
   const isLogin = props.store.isLogin
-
-
-
-
   return (
     <Router>
       <Switch>
@@ -26,13 +21,16 @@ function App(props) {
           {isLogin ? <Redirect to="/game" /> : <Login />}
         </Route>
 
-        <Route path="/register" >
+        <Route exact path="/register" >
           {isLogin ? <Redirect to="/game" /> : <Register />}
         </Route>
 
-        <Route path="/game" >
+        <Route exact path="/game" >
           {!isLogin ? <Redirect to="/" /> : <Game />}
+        </Route>
 
+        <Route exact path="/me" >
+          {!isLogin ? <Redirect to="/" /> : <Profile />}
         </Route>
 
       </Switch>
