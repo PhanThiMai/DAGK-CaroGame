@@ -10,7 +10,10 @@ let initialState = {
     stepNumber: 0,
     xIsNext: true,
     winner: null,
-    values: [null]
+    values: [null],
+    // isLogin: localStorage.getItem("usertoken") && true
+    isLogin: true
+
 }
 
 
@@ -78,6 +81,13 @@ let game = (state = initialState, action) => {
                 winner: null,
                 values: [null],
             }
+        case types.LOG_OUT:
+            localStorage.removeItem("usertoken")
+            return {
+                ...state,
+                isLogin: false
+            }
+
 
 
         default:

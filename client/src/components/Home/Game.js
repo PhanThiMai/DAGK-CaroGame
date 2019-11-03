@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import Board from './Board';
 import './Game.scss';
 import * as helper from './Helper'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 
 
@@ -10,7 +11,8 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            reOdered: false
+            reOdered: false,
+            username: 'Mai'
         };
     }
 
@@ -47,6 +49,11 @@ class Game extends React.Component {
         this.setState({
             reOdered: false
         });
+    }
+
+    handleLogout = () => {
+        console.log("click logout")
+        this.props.logout();
     }
 
     render() {
@@ -104,8 +111,20 @@ class Game extends React.Component {
         }
 
         return (
-            <div className="game  ">
-
+            <div className="game pt-1">
+                <Navbar bg="light" className="mb-5">
+                    <Navbar.Brand href="#">CaroGame</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ml-auto">
+                            <NavDropdown title={this.state.username} id="basic-nav-dropdown" className="mr-3">
+                                <NavDropdown.Item href="#me">Profile</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
                 <div className="d-flex">
                     <Button
                         color="primary"
@@ -129,7 +148,6 @@ class Game extends React.Component {
                         <h4>Infomation</h4>
                         <hr />
                         <Button
-                            outline
                             variant="primary m-1 p-1"
                             className="btn"
                             onClick={() => {
@@ -137,7 +155,7 @@ class Game extends React.Component {
                             }}
                         >
                             Re-odered
-          </Button>
+                         </Button>
                         <ol className="moves">{moves}</ol>
                     </div>
 

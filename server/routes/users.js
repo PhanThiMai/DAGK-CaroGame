@@ -25,6 +25,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/register', (req, res, next) => {
   const { body } = req;
+  console.log("TCL SERVER :", body)
   if (!body.username || body.username.length < 5 || body.username.indexOf(' ') !== -1) {
     return res.json({
       type: 0
@@ -53,7 +54,7 @@ router.post('/register', (req, res, next) => {
         })
 
         return finalUser.save()
-          .then(() => res.status(200).json({
+          .then(() => res.json({
             token: token,
             data: {
               username: finalUser.username

@@ -19,3 +19,9 @@ export const restart = () => {
         type: types.RESTART
     }
 }
+
+export const logout = () => {
+    return {
+        type: types.LOG_OUT
+    }
+}

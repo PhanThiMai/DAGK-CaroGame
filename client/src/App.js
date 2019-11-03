@@ -10,17 +10,29 @@ import {
 } from "react-router-dom";
 
 
-function App() {
-  const isLogin = localStorage.getItem("usertoken") && true;
+function App(props) {
+  //const isLogin = localStorage.getItem("usertoken") && true;
+
+  //const isLogin = game && game.isLogin;
+  const isLogin = props.store.isLogin
+
+
 
 
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/game"  >
+        <Route exact path="/" >
+          {isLogin ? <Redirect to="/game" /> : <Login />}
+        </Route>
+
+        <Route path="/register" >
+          {isLogin ? <Redirect to="/game" /> : <Register />}
+        </Route>
+
+        <Route path="/game" >
           {!isLogin ? <Redirect to="/" /> : <Game />}
+
         </Route>
 
       </Switch>

@@ -32,7 +32,7 @@ class Login extends React.Component {
         const { username, password } = this.state;
         login(username, password).then(res => {
             if (res) {
-                // this.props.handleLoginCheck();
+                this.props.handleLogin(res.token);
                 this.setState({
                     username: '',
                     password: '',

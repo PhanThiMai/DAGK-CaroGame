@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         restart: () => {
             dispatch(actions.restart())
+        },
+        logout: () => {
+            dispatch(actions.logout())
         }
     }
 }
