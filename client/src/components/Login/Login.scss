@@ -76,7 +76,11 @@
     }
 
     .errorInput {
-      @include errorInput();
+      border: solid 1px $strawberry;
+      background-color: rgba(246, 63, 69, 0.04);
+      height: 46px;
+      width: 395px;
+      padding-left: 5px;
     }
 
     .normalInput {

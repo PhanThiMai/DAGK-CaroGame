@@ -19,7 +19,7 @@ const hashPassword = (password) => {
 }
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
@@ -81,7 +81,7 @@ router.post('/register', (req, res, next) => {
 });
 
 
-router.post('/login', function (req, res, next) {
+router.post('/login', (req, res, next) => {
   passport.authenticate('local',
     { session: false },
     (err, user, info) => {
@@ -119,7 +119,7 @@ router.post('/login', function (req, res, next) {
 });
 
 
-router.get('/me', function (req, res, next) {
+router.get('/me', (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
@@ -128,13 +128,43 @@ router.get('/me', function (req, res, next) {
       });
     }
     return res.json({
-      userInfor: user
+      user
     }
     )
 
   })
     (req, res);
 });
+
+router.post('/me', (req, res, next) => {
+
+  const { body } = req;
+
+  const user = {
+    _id: '5dbd54e2d24c113acc165b32',
+    username: 'maiphan',
+    password: '123456'
+  }
+
+  users.findByIdAndUpdate(user._id, {
+    $set: {
+      username: user.username,
+      password: hashPassword(user.password)
+    }
+
+  }, err => {
+    if (err) {
+      res.json({
+        type: 0
+      })
+    }
+    res.json({
+      type: 1
+    })
+  })
+
+
+})
 
 
 module.exports = router;

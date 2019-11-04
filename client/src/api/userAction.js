@@ -33,3 +33,27 @@ export const login = (username, password) => {
         )
 }
 
+
+export const getUser = () => {
+    return API
+        .get(`/users/me`)
+        .then(res => {
+            return res.data
+        }).catch(error => console.log(error));
+}
+
+
+export const updateProfile = (user) => {
+    return API
+        .post(`/users/me`, {
+            user
+        })
+        .then(res => {
+            localStorage.setItem('usertoken', res.data.username)
+            return res.data
+        }).catch(res => {
+            console.log(res)
+        }
+        )
+}
+

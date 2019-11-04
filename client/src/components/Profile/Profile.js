@@ -3,6 +3,7 @@ import './Profile.scss'
 import '../Login/Login.scss'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { getUser, updateProfile } from '../../api/userAction'
 
 
 
@@ -10,6 +11,7 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: {},
             username: '',
             password: '',
             newPassword: '',
@@ -20,7 +22,9 @@ class Profile extends React.Component {
 
     handleFocus = e => {
         this.setState({
-            errors: false
+            errors: false,
+            errorUsername: false,
+            errorPassword: false
         })
     }
 
@@ -30,8 +34,50 @@ class Profile extends React.Component {
         })
     }
 
-    handleClick = e => {
+    handleCancel = e => {
         e.preventDefault()
+        this.setState({
+            username: localStorage.getItem('username') || '',
+            password: '',
+            newPassword: '',
+            retypePassword: '',
+            errors: false,
+            errorUsername: false,
+            errorPassword: false
+        })
+    }
+
+    validateUsername = () => {
+        const { username } = this.state;
+        if (username.indexOf(' ') !== -1) {
+            console.log("error")
+            return false
+        }
+
+        return true
+    }
+
+    validatePassword = () => {
+        const { password, newPassword, retypePassword } = this.state;
+        if (password) {
+            if (newPassword.indexOf(' ') !== -1 || newPassword !== retypePassword)
+                return false
+        }
+        return true
+    }
+    handleChange = e => {
+        e.preventDefault()
+        if (!this.validateUsername()) {
+            this.setState({
+                errorUsername: true
+            })
+        }
+        if (!this.validatePassword()) {
+            this.setState({
+                errorPassword: true
+            })
+        }
+
     }
 
     handleLogout = () => {
@@ -39,6 +85,8 @@ class Profile extends React.Component {
     }
     componentDidMount = () => {
         const { profile } = this.props;
+        const users = getUser()
+
         this.setState({
             username: profile ? profile.username : ''
         })
@@ -46,7 +94,7 @@ class Profile extends React.Component {
 
 
     render() {
-        const { username, password, errors, newPassword, retypePassword } = this.state
+        const { username, password, errors, errorPassword, errorUsername, newPassword, retypePassword } = this.state
         const { profile } = this.props
         const active = username.trim() || (password.trim() && newPassword.trim() && retypePassword.trim());
 
@@ -79,7 +127,7 @@ class Profile extends React.Component {
                                     placeholder="Enter your username..."
                                     onFocus={this.handleFocus}
                                     value={username}
-                                    className={errors ? 'errorInput' : 'normalInput'}
+                                    className={errorUsername ? 'errorInput' : 'normalInput'}
                                     onChange={this.onChange} />
                             </div>
 
@@ -90,7 +138,7 @@ class Profile extends React.Component {
                                     placeholder="Enter your password..."
                                     value={password}
                                     onFocus={this.handleFocus}
-                                    className={errors ? 'errorInput' : 'normalInput'}
+                                    className={errorPassword ? 'errorInput' : 'normalInput'}
                                     onChange={this.onChange} />
                             </div>
                             <div className="activeR">
@@ -99,7 +147,7 @@ class Profile extends React.Component {
                                     placeholder="Enter new password ... "
                                     value={newPassword}
                                     onFocus={this.handleFocus}
-                                    className={errors ? 'errorInput' : 'normalInput'}
+                                    className={errorPassword ? 'errorInput' : 'normalInput'}
                                     onChange={this.onChange} />
                             </div>
 
@@ -109,7 +157,7 @@ class Profile extends React.Component {
                                     placeholder="Retype new password ..."
                                     value={retypePassword}
                                     onFocus={this.handleFocus}
-                                    className={errors ? 'errorInput' : 'normalInput'}
+                                    className={errorPassword ? 'errorInput' : 'normalInput'}
                                     onChange={this.onChange} />
                             </div>
 
@@ -130,8 +178,16 @@ class Profile extends React.Component {
 
 
                     <div className="d-flex">
-                        <button onClick={this.handleClick} className='loginButtonActive '><div className="buttonText mb-5" >Cancel</div></button>
-                        <button onClick={this.handleClick} className={active ? 'loginButtonActive ' : 'loginButton'}><div className="buttonText mb-5" >Change</div></button>
+                        <button
+                            onClick={this.handleCancel}
+                            className='loginButtonActive '>
+                            <div className="buttonText mb-5" >Cancel</div>
+                        </button>
+                        <button
+                            onClick={this.handleChange}
+                            className={active ? 'loginButtonActive ' : 'loginButton'}>
+                            <div className="buttonText mb-5" >Change</div>
+                        </button>
 
                     </div>
 
