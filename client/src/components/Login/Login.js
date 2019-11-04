@@ -30,18 +30,16 @@ class Login extends React.Component {
     handleClick = e => {
         e.preventDefault()
         const { username, password } = this.state;
+
         login(username, password).then(res => {
             if (res) {
-                this.props.handleLogin(res.token);
+                this.props.handleLogin();
+            } else {
                 this.setState({
-                    username: '',
-                    password: '',
-                    errors: false
+                    errors: true
                 })
             }
         })
-
-
     }
 
 

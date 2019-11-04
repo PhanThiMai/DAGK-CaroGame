@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import * as actions from '../actions/GameAction'
+import { handleLogout } from '../actions/Login'
 import Game from '../components/Home/Game'
 
 
@@ -19,7 +20,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(actions.restart())
         },
         logout: () => {
-            dispatch(actions.logout())
+            dispatch(handleLogout())
         }
     }
 }

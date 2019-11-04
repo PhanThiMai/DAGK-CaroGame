@@ -1,8 +1,15 @@
 import * as types from '../constant/ActionType'
 
-export const handleLogin = (token) => {
+export const handleLogin = () => {
     return {
-        type: types.HANDLE_LOGIN_MODAL,
-        token
+        type: types.HANDLE_LOGIN
     }
 }
+
+export const handleLogout = () => {
+    return {
+        type: types.HANDLE_LOG_OUT
+    }
+}
+
+

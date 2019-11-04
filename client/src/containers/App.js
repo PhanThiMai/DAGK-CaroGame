@@ -3,7 +3,8 @@ import App from '../App'
 
 
 const mapStateToProps = state => ({
-    store: state.game
+    store: state.game,
+    isLogin: state.login
 })
 
 
