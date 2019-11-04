@@ -57,9 +57,9 @@ class Game extends React.Component {
     }
 
     componentDidMount = () => {
-        const { game } = this.props
+        const username = localStorage.getItem("username")
         this.setState({
-            username: game ? game.username : ''
+            username
         })
     }
 

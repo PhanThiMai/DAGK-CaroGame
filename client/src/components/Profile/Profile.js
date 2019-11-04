@@ -84,11 +84,9 @@ class Profile extends React.Component {
         this.props.logout();
     }
     componentDidMount = () => {
-        const { profile } = this.props;
-        const users = getUser()
-
+        const username = localStorage.getItem("username")
         this.setState({
-            username: profile ? profile.username : ''
+            username: username
         })
     }
 
