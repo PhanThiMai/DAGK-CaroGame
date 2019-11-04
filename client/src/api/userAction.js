@@ -51,7 +51,10 @@ export const getUser = () => {
     return API
         .get(`/users/me`)
         .then(res => {
-            return res.data
+            if (res.data) {
+                return res.data.users
+            }
+            return false
         }).catch(error => console.log(error));
 }
 
@@ -59,11 +62,25 @@ export const getUser = () => {
 export const updateProfile = (user) => {
     return API
         .post(`/users/me`, {
-            user
+            user,
+            type: 0
         })
         .then(res => {
-            localStorage.setItem('usertoken', res.data.username)
-            return res.data
+            return res.data.type
+        }).catch(res => {
+            console.log(res)
+        }
+        )
+}
+
+export const updatePassword = (user) => {
+    return API
+        .post(`/users/me`, {
+            user,
+            type: 1
+        })
+        .then(res => {
+            return res.data.type
         }).catch(res => {
             console.log(res)
         }

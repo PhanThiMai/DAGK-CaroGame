@@ -3,7 +3,7 @@ import './Profile.scss'
 import '../Login/Login.scss'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { getUser, updateProfile } from '../../api/userAction'
+import { getUser, updateProfile, updatePassword } from '../../api/userAction'
 
 
 
@@ -11,7 +11,7 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {},
+            user: null,
             username: '',
             password: '',
             newPassword: '',
@@ -34,15 +34,20 @@ class Profile extends React.Component {
         })
     }
 
-    handleCancel = e => {
+    handleCancelUsername = e => {
         e.preventDefault()
         this.setState({
             username: localStorage.getItem('username') || '',
+            errorUsername: false,
+
+        })
+    }
+    handleCancelPsw = e => {
+        e.preventDefault()
+        this.setState({
             password: '',
             newPassword: '',
             retypePassword: '',
-            errors: false,
-            errorUsername: false,
             errorPassword: false
         })
     }
@@ -50,7 +55,6 @@ class Profile extends React.Component {
     validateUsername = () => {
         const { username } = this.state;
         if (username.indexOf(' ') !== -1) {
-            console.log("error")
             return false
         }
 
@@ -60,22 +64,65 @@ class Profile extends React.Component {
     validatePassword = () => {
         const { password, newPassword, retypePassword } = this.state;
         if (password) {
-            if (newPassword.indexOf(' ') !== -1 || newPassword !== retypePassword)
+            if (newPassword.indexOf(' ') !== -1 || newPassword !== retypePassword) {
                 return false
+            }
+            return true
+        } else {
+            return false
         }
-        return true
+
     }
-    handleChange = e => {
+
+    handleChangeUsername = e => {
         e.preventDefault()
+        const { user, username } = this.state
         if (!this.validateUsername()) {
             this.setState({
                 errorUsername: true
             })
+        } else {
+            if (user) {
+                user.username = username;
+                updateProfile(user).then(res => {
+                    if (res === 1) {
+                        localStorage.removeItem("username");
+                        localStorage.setItem("username", username)
+                        this.props.changeUsername();
+                    }
+                })
+            }
+
         }
+
+    }
+
+    handleChangePsw = e => {
+        e.preventDefault()
         if (!this.validatePassword()) {
             this.setState({
                 errorPassword: true
             })
+        }
+        else {
+            const { user, newPassword } = this.state;
+            if (user) {
+                user.password = newPassword;
+                updatePassword(user).then(res => {
+                    if (res === 1) {
+                        this.setState({
+                            errorPassword: false,
+                            password: '',
+                            newPassword: '',
+                            retypePassword: ''
+                        })
+                    } else {
+                        this.setState({
+                            errorPassword: true
+                        })
+                    }
+                })
+            }
         }
 
     }
@@ -85,6 +132,22 @@ class Profile extends React.Component {
     }
     componentDidMount = () => {
         const username = localStorage.getItem("username")
+        getUser().then(res => {
+            if (res) {
+                const users = res;
+                if (users) {
+                    const user = users.find(e => {
+                        if (e.username === username)
+                            return e;
+                    });
+                    this.setState({
+                        user
+                    })
+                }
+            }
+
+        })
+
         this.setState({
             username: username
         })
@@ -94,7 +157,8 @@ class Profile extends React.Component {
     render() {
         const { username, password, errors, errorPassword, errorUsername, newPassword, retypePassword } = this.state
         const { profile } = this.props
-        const active = username.trim() || (password.trim() && newPassword.trim() && retypePassword.trim());
+        const active = username.trim() !== localStorage.getItem("username")
+        const activePsw = password.trim() && newPassword.trim() && retypePassword.trim();
 
         return (
             <div className="pl-5 pr-5">
@@ -127,6 +191,20 @@ class Profile extends React.Component {
                                     value={username}
                                     className={errorUsername ? 'errorInput' : 'normalInput'}
                                     onChange={this.onChange} />
+
+
+                            </div>
+                            <div className="d-flex pl-4">
+                                <button
+                                    onClick={this.handleCancelUsername}
+                                    className='loginButtonActive'>
+                                    <div className="buttonText mb-4" >Cancel</div>
+                                </button>
+                                <button
+                                    onClick={this.handleChangeUsername}
+                                    className={active ? 'loginButtonActive' : 'loginButton'}>
+                                    <div className="buttonText mb-4" >Change</div>
+                                </button>
                             </div>
 
                             <hr width="300px" />
@@ -177,13 +255,13 @@ class Profile extends React.Component {
 
                     <div className="d-flex">
                         <button
-                            onClick={this.handleCancel}
+                            onClick={this.handleCancelPsw}
                             className='loginButtonActive '>
                             <div className="buttonText mb-5" >Cancel</div>
                         </button>
                         <button
-                            onClick={this.handleChange}
-                            className={active ? 'loginButtonActive ' : 'loginButton'}>
+                            onClick={this.handleChangePsw}
+                            className={activePsw ? 'loginButtonActive ' : 'loginButton'}>
                             <div className="buttonText mb-5" >Change</div>
                         </button>
 

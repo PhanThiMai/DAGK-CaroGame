@@ -41,8 +41,10 @@ mongoose.connect(connStr, err => {
 });
 
 
-app.use('/', indexRouter);
+//app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/', passport.authenticate('jwt', { session: false }), indexRouter);
 
 
 app.use((req, res, next) => {

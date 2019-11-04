@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
-import * as actions from '../actions/GameAction'
+import * as actions from '../actions/ProfileAction'
 import Profile from '../components/Profile/Profile'
+import { handleLogout } from '../actions/Login'
 
 
 const mapStateToProps = state => ({
@@ -10,7 +11,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => {
     return {
         logout: () => {
-            dispatch(actions.logout())
+            dispatch(handleLogout())
+        },
+        changeUsername: () => {
+            dispatch(actions.changeUsername())
         }
     }
 }

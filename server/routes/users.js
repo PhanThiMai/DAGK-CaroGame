@@ -115,48 +115,53 @@ router.post('/login', (req, res, next) => {
 
 
 router.get('/me', (req, res, next) => {
-  passport.authenticate('jwt', { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: info ? info.message : 'Must be logined to access to /me',
-        user: user
-      });
-    }
-    return res.json({
-      user
-    }
-    )
-
-  })
-    (req, res);
+  return users.find()
+    .then((users) => res.json({
+      type: 1,
+      users
+    }))
+    .catch(next);
 });
 
 router.post('/me', (req, res, next) => {
 
   const { body } = req;
+  const user = body.user
+  if (body.type === 0) {
+    users.findByIdAndUpdate(user._id, {
+      $set: {
+        username: user.username
+      }
 
-  const user = {
-    _id: '5dbd54e2d24c113acc165b32',
-    username: 'maiphan',
-    password: '123456'
-  }
-
-  users.findByIdAndUpdate(user._id, {
-    $set: {
-      username: user.username,
-      password: hashPassword(user.password)
-    }
-
-  }, err => {
-    if (err) {
+    }, err => {
+      if (err) {
+        res.json({
+          type: 0
+        })
+      }
       res.json({
-        type: 0
+        type: 1
       })
-    }
-    res.json({
-      type: 1
     })
-  })
+
+  } else {
+    users.findByIdAndUpdate(user._id, {
+      $set: {
+        password: hashPassword(user.password)
+      }
+
+    }, err => {
+      if (err) {
+        res.json({
+          type: 0
+        })
+      }
+      res.json({
+        type: 1
+      })
+    })
+
+  }
 
 
 })
