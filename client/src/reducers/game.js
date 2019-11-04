@@ -11,8 +11,7 @@ let initialState = {
     xIsNext: true,
     winner: null,
     values: [null],
-    // isLogin: localStorage.getItem("usertoken") && true
-    isLogin: true,
+    isLogin: localStorage.getItem("token") && true,
     username: localStorage.getItem("username") || ''
 
 }
@@ -83,7 +82,8 @@ let game = (state = initialState, action) => {
                 values: [null],
             }
         case types.LOG_OUT:
-            localStorage.removeItem("usertoken")
+            localStorage.removeItem("token")
+            localStorage.removeItem("username")
             return {
                 ...state,
                 isLogin: false

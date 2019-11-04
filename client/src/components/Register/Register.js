@@ -34,11 +34,10 @@ class Register extends React.Component {
         const { username, password } = this.state;
         register(username, password).then(res => {
             if (res) {
-                this.props.this.props.handleLogin(res.token);
+                this.props.handleLogin();
+            } else {
                 this.setState({
-                    username: '',
-                    password: '',
-                    errors: false
+                    errors: true
                 })
             }
         })

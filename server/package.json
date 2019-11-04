@@ -1,22 +1,30 @@
 {
-  "name": "server",
+  "name": "1612369",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cor": "0.0.0",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
+    "errorhandler": "^1.5.1",
     "express": "~4.16.1",
+    "express-session": "^1.17.0",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
-    "mongo": "^0.1.0",
-    "mongoose": "^5.7.7",
+    "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
     "nodemon": "^1.19.4",
-    "passport": "^0.4.0"
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9"
   }
 }

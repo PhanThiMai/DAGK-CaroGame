@@ -18,20 +18,16 @@ const hashPassword = (password) => {
     .digest("hex");
 }
 
-/* GET users listing. */
-router.get('/', (req, res, next) => {
-  res.send('respond with a resource');
-});
 
 router.post('/register', (req, res, next) => {
   const { body } = req;
-  console.log("TCL SERVER :", body)
+  //console.log(body)
   if (!body.username || body.username.length < 5 || body.username.indexOf(' ') !== -1) {
     return res.json({
       type: 0
     });
   }
-  if (!body.password || body.password.length < 5 || body.password.indexOf(' ') !== -1) {
+  if (!body.password || body.password.length < 5 || body.password.indexOf(" ") !== -1) {
     return res.json({
       type: 0
     });
@@ -41,7 +37,7 @@ router.post('/register', (req, res, next) => {
     username: body.username
   })
     .then(user => {
-      if (user === null) {
+      if (!user) {
         let finalUser = new users({
           username: body.username,
           password: hashPassword(body.password)
@@ -55,10 +51,8 @@ router.post('/register', (req, res, next) => {
 
         return finalUser.save()
           .then(() => res.json({
-            token: token,
-            data: {
-              username: finalUser.username
-            },
+            data: { username: finalUser.username },
+            token,
             type: 1
           }))
           .catch(err => {
@@ -67,6 +61,7 @@ router.post('/register', (req, res, next) => {
               err
             })
           });
+
       } else {
         res.json({ errors: 'User already exists', type: 0 })
       }
