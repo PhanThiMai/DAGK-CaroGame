@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux'
 import login from './login'
 import game from './game'
+import profile from './profile'
 
 
 const rootReducer = combineReducers({
     login,
-    game
+    game,
+    profile
 })
 
 export default rootReducer;

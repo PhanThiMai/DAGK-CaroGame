@@ -12,7 +12,8 @@ let initialState = {
     winner: null,
     values: [null],
     // isLogin: localStorage.getItem("usertoken") && true
-    isLogin: true
+    isLogin: true,
+    username: localStorage.getItem("username") || ''
 
 }
 

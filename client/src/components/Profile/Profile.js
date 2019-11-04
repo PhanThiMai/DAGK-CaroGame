@@ -2,6 +2,7 @@ import React from 'react';
 import './Profile.scss'
 import '../Login/Login.scss'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 
 
@@ -19,7 +20,7 @@ class Profile extends React.Component {
 
     handleFocus = e => {
         this.setState({
-            [e.target.name]: '',
+            errors: false
         })
     }
 
@@ -33,27 +34,42 @@ class Profile extends React.Component {
         e.preventDefault()
     }
 
+    handleLogout = () => {
+        this.props.logout();
+    }
+    componentDidMount = () => {
+        const { profile } = this.props;
+        this.setState({
+            username: profile ? profile.username : ''
+        })
+    }
+
 
     render() {
         const { username, password, errors, newPassword, retypePassword } = this.state
+        const { profile } = this.props
         const active = username.trim() || (password.trim() && newPassword.trim() && retypePassword.trim());
 
         return (
             <div className="pl-5 pr-5">
                 <Navbar bg="light" className="mb-5">
-                    <Navbar.Brand href="#">CaroGame</Navbar.Brand>
+                    <Navbar>
+                        <Link to="/game" className="brand-title">
+                            CaroGame
+                        </Link>
+                    </Navbar>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
-                            <NavDropdown title={this.state.username} id="basic-nav-dropdown" className="mr-3">
-                                <NavDropdown.Item href="/me">Profile</NavDropdown.Item>
+                            <NavDropdown title={profile ? profile.username : username} id="basic-nav-dropdown" className="mr-3">
+                                <NavDropdown.Item >Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <div className="loginModal profile-container">
+                <div className="loginModal profile-container mt-5">
                     <div className="loginT mt-5 change-profile-title" >Change Profile</div>
                     <div className="row">
                         <div className="col-7">
