@@ -1,10 +1,11 @@
 import * as types from '../constant/ActionType'
 
 const username = localStorage.getItem("username")
+const url = localStorage.getItem("avatar")
 
 let initialState = {
     username: username || '',
-    url: 'http://placehold.it/1000'
+    url: url ? url : 'http://placehold.it/1000'
 }
 
 let profile = (state = initialState, action) => {
@@ -18,7 +19,7 @@ let profile = (state = initialState, action) => {
         case types.STORE_AVARTAR_URL:
             return {
                 ...state,
-                url: action.url ? action.url : "http://placehold.it/1000"
+                url: action.url ? action.url : state.url
             }
         default:
             return state

@@ -18,7 +18,8 @@ class Profile extends React.Component {
             password: '',
             newPassword: '',
             retypePassword: '',
-            errors: false
+            errors: false,
+            url: this.props.profile.url
         };
     }
 
@@ -132,8 +133,10 @@ class Profile extends React.Component {
     handleChangeAvatar = () => {
         const { user } = this.state;
         if (user) {
+            user.url = this.props.profile.url
             updateAvatar(user).then(res => {
                 if (res === 1) {
+                    localStorage.setItem("avatar", user.url)
                     alert("update avatar successfully")
                 } else {
                     alert("Ops, something wrong when update avatar")
@@ -141,9 +144,6 @@ class Profile extends React.Component {
                 }
             })
         }
-
-
-
     }
     componentDidMount = () => {
         const username = localStorage.getItem("username")
@@ -156,8 +156,11 @@ class Profile extends React.Component {
                             return e;
                     });
                     this.setState({
-                        user
+                        user,
+                        url: user.url ? user.url : 'http://placehold.it/1000'
                     })
+                    if (user.url)
+                        localStorage.setItem("avatar", user.url)
                 }
             }
 
@@ -170,11 +173,10 @@ class Profile extends React.Component {
 
 
     render() {
-        const { username, password, errors, errorPassword, errorUsername, newPassword, retypePassword } = this.state
+        const { username, password, url, errorPassword, errorUsername, newPassword, retypePassword } = this.state
         const { profile } = this.props
         const active = username.trim() !== localStorage.getItem("username")
         const activePsw = password.trim() && newPassword.trim() && retypePassword.trim();
-        const url = this.state.user ? this.state.user.url : 'http://placehold.it/1000'
 
         return (
             <div className="pl-5 pr-5">
