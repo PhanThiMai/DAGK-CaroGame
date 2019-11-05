@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeUsername: () => {
             dispatch(actions.changeUsername())
+        },
+        storeAvatarURL: (url) => {
+            dispatch(actions.storeAvatarURL(url))
         }
     }
 }

@@ -87,3 +87,20 @@ export const updatePassword = (user) => {
         )
 }
 
+
+export const updateAvatar = (user) => {
+    return API
+        .post(`/users/me`, {
+            user,
+            type: 2
+        })
+        .then(res => {
+            console.log(res.data.type)
+            return res.data.type
+        }).catch(res => {
+            console.log(res)
+        }
+        )
+}
+
+

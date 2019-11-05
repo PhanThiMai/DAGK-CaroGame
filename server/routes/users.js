@@ -132,6 +132,22 @@ router.post('/me', (req, res, next) => {
       $set: {
         username: user.username
       }
+    }, err => {
+      if (err) {
+        res.json({
+          type: 0
+        })
+      }
+      res.json({
+        type: 1
+      })
+    })
+
+  } else if (body.type === 1) {
+    users.findByIdAndUpdate(user._id, {
+      $set: {
+        password: hashPassword(user.password)
+      }
 
     }, err => {
       if (err) {
@@ -144,10 +160,11 @@ router.post('/me', (req, res, next) => {
       })
     })
 
-  } else {
+  }
+  else {
     users.findByIdAndUpdate(user._id, {
       $set: {
-        password: hashPassword(user.password)
+        url: user.url
       }
 
     }, err => {

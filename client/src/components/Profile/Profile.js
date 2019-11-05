@@ -3,8 +3,10 @@ import './Profile.scss'
 import '../Login/Login.scss'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { getUser, updateProfile, updatePassword } from '../../api/userAction'
+import { getUser, updateProfile, updatePassword, updateAvatar } from '../../api/userAction'
+import { hashPassword } from '../Utils/Util'
 
+import AvatarIMG from './Avatar'
 
 
 class Profile extends React.Component {
@@ -62,16 +64,11 @@ class Profile extends React.Component {
     }
 
     validatePassword = () => {
-        const { password, newPassword, retypePassword } = this.state;
-        if (password) {
-            if (newPassword.indexOf(' ') !== -1 || newPassword !== retypePassword) {
-                return false
-            }
-            return true
-        } else {
-            return false
-        }
-
+        const { password, newPassword, retypePassword, user } = this.state;
+        if (hashPassword(password) === user.password)
+            if (newPassword.indexOf(' ') === -1 && newPassword === retypePassword)
+                return true
+        return false
     }
 
     handleChangeUsername = e => {
@@ -116,6 +113,7 @@ class Profile extends React.Component {
                             newPassword: '',
                             retypePassword: ''
                         })
+                        alert("Change password successfully")
                     } else {
                         this.setState({
                             errorPassword: true
@@ -129,6 +127,23 @@ class Profile extends React.Component {
 
     handleLogout = () => {
         this.props.logout();
+    }
+
+    handleChangeAvatar = () => {
+        const { user } = this.state;
+        if (user) {
+            updateAvatar(user).then(res => {
+                if (res === 1) {
+                    alert("update avatar successfully")
+                } else {
+                    alert("Ops, something wrong when update avatar")
+
+                }
+            })
+        }
+
+
+
     }
     componentDidMount = () => {
         const username = localStorage.getItem("username")
@@ -159,6 +174,7 @@ class Profile extends React.Component {
         const { profile } = this.props
         const active = username.trim() !== localStorage.getItem("username")
         const activePsw = password.trim() && newPassword.trim() && retypePassword.trim();
+        const url = this.state.user ? this.state.user.url : 'http://placehold.it/1000'
 
         return (
             <div className="pl-5 pr-5">
@@ -241,18 +257,13 @@ class Profile extends React.Component {
                         </div>
 
                         <div className="col-4">
-                            <img
-                                className="img-thumbnail"
-                                alt="avatar"
-                                src="http://placehold.it/1000"
-                                width="150vh"
-                                height="150vh">
-                            </img>
-                            <h6 className="mt-1 ml-3">Change avatar</h6>
+                            <AvatarIMG storeAvatarURL={this.props.storeAvatarURL} url={url} />
+                            <button
+                                onClick={this.handleChangeAvatar}
+                                className='loginButtonActive change-avatar'>Change avatar
+                            </button>
                         </div>
                     </div>
-
-
                     <div className="d-flex">
                         <button
                             onClick={this.handleCancelPsw}
@@ -266,9 +277,7 @@ class Profile extends React.Component {
                         </button>
 
                     </div>
-
                 </div>
-
 
             </div>
 

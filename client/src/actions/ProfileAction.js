@@ -14,4 +14,17 @@ export const changePassword = () => {
     }
 }
 
+export const changeAvatar = () => {
+    return {
+        type: types.CHANGE_AVARTAR
+    }
+}
+
+export const storeAvatarURL = url => {
+    return {
+        type: types.STORE_AVARTAR_URL,
+        url
+    }
+}
+
 

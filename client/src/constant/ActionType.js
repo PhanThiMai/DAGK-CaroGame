@@ -6,6 +6,10 @@ export const JUMP_TO = 'JUMP_TO';
 export const RESTART = 'RESTART';
 export const CHANGE_USERNAME = 'CHANGE_USERNAME';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+export const STORE_AVARTAR_URL = 'STORE_AVARTAR_URL';
+export const CHANGE_AVARTAR = 'CHANGE_AVARTAR';
+
+
 
 
 
