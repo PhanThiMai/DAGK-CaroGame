@@ -9,8 +9,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleLogin: (token) => {
-            dispatch(actions.handleLogin(token))
+        handleLogin: () => {
+            dispatch(actions.handleLogin())
         }
     }
 }

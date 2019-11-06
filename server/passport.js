@@ -48,11 +48,10 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'WebNC'
+    secretOrKey: process.env.SECRET_KEY
 },
     function (jwtPayload, cb) {
-
-        return users.findOneById(jwtPayload.id)
+        return users.findOneById(jwtPayload._id)
             .then(user => {
                 return cb(null, user);
             })

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import Board from './Board';
 import './Game.scss';
 import * as helper from './Helper'
+import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -37,6 +38,12 @@ class Game extends React.Component {
         values[stepNumber + 1] = result;
 
         this.props.handleClickSquare(i, result)
+        if (!result) {
+            const randomvalue = helper.randomSquareForComputerTurn(squares, i - 5, i + 5)
+            // console.log(randomvalue)
+            this.props.handleClickSquare(randomvalue, result)
+        }
+
 
     }
 
@@ -52,8 +59,14 @@ class Game extends React.Component {
     }
 
     handleLogout = () => {
-        console.log("click logout")
         this.props.logout();
+    }
+
+    componentDidMount = () => {
+        const username = localStorage.getItem("username")
+        this.setState({
+            username
+        })
     }
 
     render() {
@@ -61,8 +74,7 @@ class Game extends React.Component {
             history,
             winner,
             values,
-            stepNumber,
-            xIsNext
+            stepNumber
         } = this.props.game;
         const { reOdered } = this.state;
 
@@ -74,32 +86,35 @@ class Game extends React.Component {
             moves = history.map((step, move) => {
                 const newMove = history.length - move - 1;
                 const desc = newMove ? `Go to move #  ${newMove}` : 'Go to game start';
-                return (
-                    <li key={move.toString()}>
-                        <Button
-                            variant="secondary"
-                            className="btn my-1"
-                            onClick={() => this.jumpTo(newMove)}
-                        >
-                            {desc}
-                        </Button>
-                    </li>
-                );
+                if (move % 2 === 0)
+                    return (
+                        <li key={move.toString()}>
+                            <Button
+                                variant="secondary"
+                                className="btn my-1"
+                                onClick={() => this.jumpTo(newMove)}
+                            >
+                                {desc}
+                            </Button>
+                        </li>
+                    );
+
             });
         } else {
             moves = history.map((step, move) => {
                 const desc = move ? `Go to move #  ${move}` : 'Go to game start';
-                return (
-                    <li key={move.toString()}>
-                        <Button
-                            variant="secondary"
-                            className="btn my-1"
-                            onClick={() => this.jumpTo(move)}
-                        >
-                            {desc}
-                        </Button>
-                    </li>
-                );
+                if (move % 2 === 0)
+                    return (
+                        <li key={move.toString()}>
+                            <Button
+                                variant="secondary"
+                                className="btn my-1"
+                                onClick={() => this.jumpTo(move)}
+                            >
+                                {desc}
+                            </Button>
+                        </li>
+                    );
             });
         }
 
@@ -107,11 +122,25 @@ class Game extends React.Component {
         if (winner) {
             status = `Winner:${winner}`;
         } else {
-            status = `Next player:${xIsNext ? 'X' : 'O'}`;
+            status = `Your turn`;
         }
 
         return (
             <div className="game pt-1">
+
+                <Navbar bg="light" className="mb-5">
+                    <Navbar.Brand href="#">CaroGame</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ml-auto">
+                            <NavDropdown title={this.state.username} id="basic-nav-dropdown" className="mr-3">
+                                <NavLink to="/me" className="profile-item" >Profile</NavLink>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={this.handleLogout}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
 
                 <div className="d-flex">
                     <Button

@@ -11,8 +11,15 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            username: 'Mai'
         };
+    }
+
+    componentDidMount = () => {
+        const username = localStorage.getItem("username")
+        this.setState({
+            username
+        })
     }
 
 

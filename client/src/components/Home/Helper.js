@@ -205,3 +205,34 @@ export const checkHangCheo2 = (row, column, value, squares) => {
 
     return null;
 }
+
+export const randomSquareForComputerTurn = (squares, min, max) => {
+    if (!squares)
+        return
+
+    if (min < 0) min = 0;
+    if (max >= 400) max = 400
+    min = Math.ceil(min);
+    max = Math.floor(max);
+
+    let value;
+    let count = 1;
+
+    while (true) {
+        //  value = Math.round(Math.random() * 400)
+
+        if (count >= max - min) {
+            value = Math.round(Math.random() * 400)
+        }
+        value = Math.floor(Math.random() * (max - min)) + min;
+        if (value && (!squares[value])) {
+            break
+        }
+        count++;
+    }
+
+    return value;
+
+    // console.log(value)
+}
+

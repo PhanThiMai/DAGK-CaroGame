@@ -18,20 +18,16 @@ const hashPassword = (password) => {
     .digest("hex");
 }
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
 
 router.post('/register', (req, res, next) => {
   const { body } = req;
-  console.log("TCL SERVER :", body)
+  //console.log(body)
   if (!body.username || body.username.length < 5 || body.username.indexOf(' ') !== -1) {
     return res.json({
       type: 0
     });
   }
-  if (!body.password || body.password.length < 5 || body.password.indexOf(' ') !== -1) {
+  if (!body.password || body.password.length < 5 || body.password.indexOf(" ") !== -1) {
     return res.json({
       type: 0
     });
@@ -41,7 +37,7 @@ router.post('/register', (req, res, next) => {
     username: body.username
   })
     .then(user => {
-      if (user === null) {
+      if (!user) {
         let finalUser = new users({
           username: body.username,
           password: hashPassword(body.password)
@@ -55,10 +51,8 @@ router.post('/register', (req, res, next) => {
 
         return finalUser.save()
           .then(() => res.json({
-            token: token,
-            data: {
-              username: finalUser.username
-            },
+            data: { username: finalUser.username },
+            token,
             type: 1
           }))
           .catch(err => {
@@ -67,6 +61,7 @@ router.post('/register', (req, res, next) => {
               err
             })
           });
+
       } else {
         res.json({ errors: 'User already exists', type: 0 })
       }
@@ -81,7 +76,9 @@ router.post('/register', (req, res, next) => {
 });
 
 
-router.post('/login', function (req, res, next) {
+router.post('/login', (req, res, next) => {
+
+
   passport.authenticate('local',
     { session: false },
     (err, user, info) => {
@@ -119,22 +116,74 @@ router.post('/login', function (req, res, next) {
 });
 
 
-router.get('/me', function (req, res, next) {
-  passport.authenticate('jwt', { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: info ? info.message : 'Must be logined to access to /me',
-        user: user
-      });
-    }
-    return res.json({
-      userInfor: user
-    }
-    )
-
-  })
-    (req, res);
+router.get('/me', (req, res, next) => {
+  return users.find()
+    .then((users) => res.json({
+      type: 1,
+      users
+    }))
+    .catch(next);
 });
+
+router.post('/me', (req, res, next) => {
+
+  const { body } = req;
+  const user = body.user
+  if (body.type === 0) {
+    users.findByIdAndUpdate(user._id, {
+      $set: {
+        username: user.username
+      }
+    }, err => {
+      if (err) {
+        res.json({
+          type: 0
+        })
+      }
+      res.json({
+        type: 1
+      })
+    })
+
+  } else if (body.type === 1) {
+    users.findByIdAndUpdate(user._id, {
+      $set: {
+        password: hashPassword(user.password)
+      }
+
+    }, err => {
+      if (err) {
+        res.json({
+          type: 0
+        })
+      }
+      res.json({
+        type: 1
+      })
+    })
+
+  }
+  else {
+    users.findByIdAndUpdate(user._id, {
+      $set: {
+        url: user.url
+      }
+
+    }, err => {
+      if (err) {
+        res.json({
+          type: 0
+        })
+      }
+      res.json({
+        type: 1
+      })
+    })
+
+  }
+
+
+})
 
 
 module.exports = router;

@@ -1,24 +1,23 @@
 import React from 'react';
 import './App.css';
-import Login from './components/Login/Login'
-import Register from './components/Register/Register'
+import Login from './containers/Login'
+import Register from './containers/Register'
 import Game from './containers/Game'
-import Profile from './components/Profile/Profile'
+import Profile from './containers/Profile'
 
 import {
   BrowserRouter as Router,
   Route, Switch, Redirect
 } from "react-router-dom";
 
-
 function App(props) {
-  //const isLogin = localStorage.getItem("usertoken") && true;
-  const isLogin = props.store.isLogin
+  const logined = props.isLogin;
+  const isLogin = logined ? logined.isLogin : false
   return (
     <Router>
       <Switch>
         <Route exact path="/" >
-          {isLogin ? <Redirect to="/game" /> : <Login />}
+          {(isLogin) ? <Redirect to="/game" /> : <Login />}
         </Route>
 
         <Route exact path="/register" >
@@ -26,7 +25,7 @@ function App(props) {
         </Route>
 
         <Route exact path="/game" >
-          {!isLogin ? <Redirect to="/" /> : <Game />}
+          {!(isLogin) ? <Redirect to="/" /> : <Game />}
         </Route>
 
         <Route exact path="/me" >
