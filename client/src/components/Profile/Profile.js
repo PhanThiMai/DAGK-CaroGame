@@ -19,7 +19,7 @@ class Profile extends React.Component {
             newPassword: '',
             retypePassword: '',
             errors: false,
-            url: this.props.profile.url? this.props.profile.url : 'http://placehold.it/1000'
+            url: this.props.profile.url ? this.props.profile.url : 'http://placehold.it/1000'
         };
     }
 
@@ -83,10 +83,12 @@ class Profile extends React.Component {
             if (user) {
                 user.username = username;
                 updateProfile(user).then(res => {
+                    console.log(res)
                     if (res === 1) {
                         localStorage.removeItem("username");
                         localStorage.setItem("username", username)
                         this.props.changeUsername();
+
                     }
                 })
             }
@@ -156,6 +158,7 @@ class Profile extends React.Component {
                     });
                     this.setState({
                         user,
+                        username: user.username,
                         url: user.url ? user.url : 'http://placehold.it/1000'
                     })
 

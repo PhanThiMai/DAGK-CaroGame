@@ -21,7 +21,6 @@ const hashPassword = (password) => {
 
 router.post('/register', (req, res, next) => {
   const { body } = req;
-  //console.log(body)
   if (!body.username || body.username.length < 5 || body.username.indexOf(' ') !== -1) {
     return res.json({
       type: 0
@@ -77,8 +76,6 @@ router.post('/register', (req, res, next) => {
 
 
 router.post('/login', (req, res, next) => {
-
-
   passport.authenticate('local',
     { session: false },
     (err, user, info) => {
@@ -126,7 +123,6 @@ router.get('/me', (req, res, next) => {
 });
 
 router.post('/me', (req, res, next) => {
-
   const { body } = req;
   const user = body.user
   if (body.type === 0) {

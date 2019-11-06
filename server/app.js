@@ -45,11 +45,5 @@ mongoose.connect(connStr, err => {
 app.use('/users', usersRouter);
 app.use('/', passport.authenticate('jwt', { session: false }), indexRouter);
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', "*");
-    res.header('Access-Control-Allow-Method', "GET,PUT,POST,DELETE");
-    res.header('Access-Control-Allow-Header', "Content-Type");
-})
-
 
 module.exports = app;

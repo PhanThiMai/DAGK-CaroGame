@@ -17,7 +17,6 @@ export const register = (username, password) => {
             }
             return res
         }).catch(res => {
-            console.log("TCL :  err after then")
             console.log(res)
         }
         )
@@ -95,7 +94,6 @@ export const updateAvatar = (user) => {
             type: 2
         })
         .then(res => {
-            console.log(res.data.type)
             return res.data.type
         }).catch(res => {
             console.log(res)
