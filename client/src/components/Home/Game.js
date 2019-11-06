@@ -38,6 +38,12 @@ class Game extends React.Component {
         values[stepNumber + 1] = result;
 
         this.props.handleClickSquare(i, result)
+        if (!result) {
+            const randomvalue = helper.randomSquareForComputerTurn(squares, i - 5, i + 5)
+            console.log(randomvalue)
+            this.props.handleClickSquare(randomvalue, result)
+        }
+
 
     }
 
@@ -114,7 +120,7 @@ class Game extends React.Component {
         if (winner) {
             status = `Winner:${winner}`;
         } else {
-            status = `Next player:${xIsNext ? 'X' : 'O'}`;
+            status = `Your turn`;
         }
 
         return (

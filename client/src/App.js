@@ -9,8 +9,6 @@ import {
   BrowserRouter as Router,
   Route, Switch, Redirect
 } from "react-router-dom";
-import login from './reducers/login';
-
 
 function App(props) {
   const logined = props.isLogin;
