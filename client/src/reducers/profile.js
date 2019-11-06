@@ -1,11 +1,10 @@
 import * as types from '../constant/ActionType'
 
 const username = localStorage.getItem("username")
-const url = localStorage.getItem("avatar")
 
 let initialState = {
     username: username || '',
-    url: url ? url : 'http://placehold.it/1000'
+    url: 'http://placehold.it/1000'
 }
 
 let profile = (state = initialState, action) => {

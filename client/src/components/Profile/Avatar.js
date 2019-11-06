@@ -33,15 +33,14 @@ class AvatarIMG extends React.Component {
     }
 
     render() {
-        const url = this.props.url ? this.props.url : 'http://placehold.it/1000'
-        //  console.log(this.state.src)
+
         return (
             <Avatar
                 width={150}
                 height={150}
                 onClose={this.onClose}
                 onBeforeFileLoad={this.onBeforeFileLoad}
-                src={url}
+                src={this.state.url}
             />
         )
     }
