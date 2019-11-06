@@ -40,7 +40,7 @@ class Game extends React.Component {
         this.props.handleClickSquare(i, result)
         if (!result) {
             const randomvalue = helper.randomSquareForComputerTurn(squares, i - 5, i + 5)
-            console.log(randomvalue)
+            // console.log(randomvalue)
             this.props.handleClickSquare(randomvalue, result)
         }
 
@@ -74,8 +74,7 @@ class Game extends React.Component {
             history,
             winner,
             values,
-            stepNumber,
-            xIsNext
+            stepNumber
         } = this.props.game;
         const { reOdered } = this.state;
 
@@ -87,32 +86,35 @@ class Game extends React.Component {
             moves = history.map((step, move) => {
                 const newMove = history.length - move - 1;
                 const desc = newMove ? `Go to move #  ${newMove}` : 'Go to game start';
-                return (
-                    <li key={move.toString()}>
-                        <Button
-                            variant="secondary"
-                            className="btn my-1"
-                            onClick={() => this.jumpTo(newMove)}
-                        >
-                            {desc}
-                        </Button>
-                    </li>
-                );
+                if (move % 2 === 0)
+                    return (
+                        <li key={move.toString()}>
+                            <Button
+                                variant="secondary"
+                                className="btn my-1"
+                                onClick={() => this.jumpTo(newMove)}
+                            >
+                                {desc}
+                            </Button>
+                        </li>
+                    );
+
             });
         } else {
             moves = history.map((step, move) => {
                 const desc = move ? `Go to move #  ${move}` : 'Go to game start';
-                return (
-                    <li key={move.toString()}>
-                        <Button
-                            variant="secondary"
-                            className="btn my-1"
-                            onClick={() => this.jumpTo(move)}
-                        >
-                            {desc}
-                        </Button>
-                    </li>
-                );
+                if (move % 2 === 0)
+                    return (
+                        <li key={move.toString()}>
+                            <Button
+                                variant="secondary"
+                                className="btn my-1"
+                                onClick={() => this.jumpTo(move)}
+                            >
+                                {desc}
+                            </Button>
+                        </li>
+                    );
             });
         }
 

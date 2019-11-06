@@ -216,14 +216,7 @@ export const randomSquareForComputerTurn = (squares, min, max) => {
     max = Math.floor(max);
 
     let value;
-    let randomed = false;
     let count = 1;
-
-    /*
-     min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-    */
 
     while (true) {
         //  value = Math.round(Math.random() * 400)
@@ -233,7 +226,6 @@ export const randomSquareForComputerTurn = (squares, min, max) => {
         }
         value = Math.floor(Math.random() * (max - min)) + min;
         if (value && (!squares[value])) {
-            randomed = true;
             break
         }
         count++;
