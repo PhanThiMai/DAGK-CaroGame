@@ -5,7 +5,6 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { getUser, updateProfile, updatePassword, updateAvatar } from '../../api/userAction'
 import { hashPassword } from '../Utils/Util'
-import ProfilePage from './ProfileImg'
 
 import AvatarIMG from './Avatar'
 
@@ -20,7 +19,7 @@ class Profile extends React.Component {
             newPassword: '',
             retypePassword: '',
             errors: false,
-            url: this.props.profile.url
+            url: this.props.profile.url? this.props.profile.url : 'http://placehold.it/1000'
         };
     }
 
@@ -137,7 +136,6 @@ class Profile extends React.Component {
             user.url = this.props.profile.url
             updateAvatar(user).then(res => {
                 if (res === 1) {
-                    localStorage.setItem("avatar", user.url)
                     alert("update avatar successfully")
                 } else {
                     alert("Ops, something wrong when update avatar")
@@ -160,8 +158,7 @@ class Profile extends React.Component {
                         user,
                         url: user.url ? user.url : 'http://placehold.it/1000'
                     })
-                    if (user.url)
-                        localStorage.setItem("avatar", user.url)
+
                 }
             }
 
@@ -199,8 +196,7 @@ class Profile extends React.Component {
                     </Navbar.Collapse>
                 </Navbar>
 
-                <ProfilePage />
-                {/*              
+
                 <div className="loginModal profile-container mt-5">
                     <div className="loginT mt-5 change-profile-title" >Change Profile</div>
                     <div className="row">
@@ -283,8 +279,7 @@ class Profile extends React.Component {
                         </button>
 
                     </div>
-                </div> */}
-
+                </div>
             </div>
 
         );
