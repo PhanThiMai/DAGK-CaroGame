@@ -31,7 +31,9 @@ class Login extends React.Component {
         e.preventDefault()
         const { username, password } = this.state;
 
+        console.log(process.env.REACT_APP_BASE_URL)
         login(username, password).then(res => {
+            console.log(res)
             if (res) {
                 this.props.handleLogin();
             } else {
