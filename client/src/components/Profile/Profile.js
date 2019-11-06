@@ -5,6 +5,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { getUser, updateProfile, updatePassword, updateAvatar } from '../../api/userAction'
 import { hashPassword } from '../Utils/Util'
+import ProfilePage from './ProfileImg'
 
 import AvatarIMG from './Avatar'
 
@@ -197,6 +198,9 @@ class Profile extends React.Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
+
+                <ProfilePage />
+                {/*              
                 <div className="loginModal profile-container mt-5">
                     <div className="loginT mt-5 change-profile-title" >Change Profile</div>
                     <div className="row">
@@ -279,7 +283,7 @@ class Profile extends React.Component {
                         </button>
 
                     </div>
-                </div>
+                </div> */}
 
             </div>
 
